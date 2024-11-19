@@ -33,20 +33,22 @@ class MyHomePage extends StatelessWidget {
             style: TextStyle(color: Colors.white),
           ),
         ),
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Container(
-              width: double.infinity,
-              child: Card(
-                color: Colors.blue,
-                child: Text('Chart'),
-                elevation: 5,
+        body: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Container(
+                width: double.infinity,
+                child: Card(
+                  color: Colors.blue,
+                  child: Text('Chart'),
+                  elevation: 5,
+                ),
               ),
-            ),
-            UserTransactions(),
-
-          ],
+              UserTransactions(),
+          
+            ],
+          ),
         ));
   }
 }
