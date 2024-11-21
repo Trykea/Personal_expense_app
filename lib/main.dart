@@ -8,10 +8,37 @@ void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   @override
-
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter App',
+      title: 'Personal Expenses',
+      // theme: ThemeData(
+      //   primarySwatch: Colors.red,
+      //   primaryColor: Colors.red,
+      //   hintColor: Colors.blue,
+      // ),
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSwatch(
+          primarySwatch: Colors.red,
+        ).copyWith(
+          secondary: Colors.blue, // Replacement for accentColor
+        ),
+        fontFamily: 'QuickSand',
+        textTheme: ThemeData.light().textTheme.copyWith(
+          headlineSmall: TextStyle(
+            fontFamily: 'OpenSans',
+            fontWeight: FontWeight.bold,
+            fontSize: 18,
+          ),
+        ),
+        appBarTheme: AppBarTheme(
+          titleTextStyle: TextStyle(
+            fontFamily: 'OpenSans',
+            fontSize: 20,
+            fontWeight: FontWeight.bold, // Optional: Add weight if needed
+            color: Colors.white, // Optional: Define a color for the text
+          ),
+        ),
+      ),
       home: MyHomePage(),
     );
   }
@@ -27,7 +54,8 @@ class _MyHomePageState extends State<MyHomePage> {
     Transaction(id: '1', title: 'Item1', amount: 9.99, date: DateTime.now()),
     Transaction(id: '2', title: 'Item2', amount: 19.99, date: DateTime.now()),
   ];
-  void _addNewTransaction(String addTitle,double addAmount) {
+
+  void _addNewTransaction(String addTitle, double addAmount) {
     final newTx = Transaction(
         title: addTitle,
         amount: addAmount,
@@ -36,54 +64,63 @@ class _MyHomePageState extends State<MyHomePage> {
 
     setState(() {
       _userTransactions.add(newTx);
-    });}
-    void _openNewTransactionModal(BuildContext ctx) {
-      showModalBottomSheet(context: ctx, builder: (bCtx) {
-        return NewTransaction(_addNewTransaction);
-      });
-    }
-    @override
-    Widget build(BuildContext context) {
-      return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.blue,
-          title: Text(
-            'Flutter App',
-            style: TextStyle(color: Colors.white),
-          ),
-          actions: [
-            IconButton(
-              onPressed: () => _openNewTransactionModal(context), icon: Icon(Icons.add), color: Colors.white,)
-          ],
-        ),
-        body: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Container(
-                width: double.infinity,
-                child: Card(
-                  color: Colors.blue,
-                  child: Text('Chart'),
-                  elevation: 5,
-                ),
-              ),
-              TransactionList(_userTransactions),
-            ],
-          ),
-        ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-        floatingActionButton: FloatingActionButton(child:
-        Icon(Icons.add,color: Colors.white,),
-          backgroundColor: Colors.blue,
-          shape: RoundedRectangleBorder( // Example: Rounded edges
-            borderRadius: BorderRadius.circular(40.0),
-          ),
-          onPressed: () => _openNewTransactionModal(context),
-
-        )
-        ,
-      );
-    }
+    });
   }
 
+  void _openNewTransactionModal(BuildContext ctx) {
+    showModalBottomSheet(
+        context: ctx,
+        builder: (bCtx) {
+          return NewTransaction(_addNewTransaction);
+        });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.primary,
+        title: Text(
+          'Personal Expenses',
+          style: TextStyle(color: Colors.white),
+        ),
+        actions: [
+          IconButton(
+            onPressed: () => _openNewTransactionModal(context),
+            icon: Icon(Icons.add),
+            color: Colors.white,
+          )
+        ],
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Container(
+              width: double.infinity,
+              child: Card(
+                color: Colors.blue,
+                child: Text('Chart'),
+                elevation: 5,
+              ),
+            ),
+            TransactionList(_userTransactions),
+          ],
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: FloatingActionButton(
+        child: Icon(
+          Icons.add,
+          color: Colors.white,
+        ),
+        backgroundColor: Theme.of(context).colorScheme.secondary,
+        shape: RoundedRectangleBorder(
+          // Example: Rounded edges
+          borderRadius: BorderRadius.circular(40.0),
+        ),
+        onPressed: () => _openNewTransactionModal(context),
+      ),
+    );
+  }
+}
