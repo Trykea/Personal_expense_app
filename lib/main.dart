@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import './models/new_transaction.dart';
 import './widgets/transaction_list.dart';
 import 'models/transaction.dart';
+import './widgets/chart.dart';
 
 void main() => runApp(MyApp());
 
@@ -24,12 +25,12 @@ class MyApp extends StatelessWidget {
         ),
         fontFamily: 'QuickSand',
         textTheme: ThemeData.light().textTheme.copyWith(
-          headlineSmall: TextStyle(
-            fontFamily: 'OpenSans',
-            fontWeight: FontWeight.bold,
-            fontSize: 18,
-          ),
-        ),
+              headlineSmall: TextStyle(
+                fontFamily: 'OpenSans',
+                fontWeight: FontWeight.bold,
+                fontSize: 18,
+              ),
+            ),
         appBarTheme: AppBarTheme(
           titleTextStyle: TextStyle(
             fontFamily: 'OpenSans',
@@ -54,6 +55,16 @@ class _MyHomePageState extends State<MyHomePage> {
     // Transaction(id: '1', title: 'Item1', amount: 9.99, date: DateTime.now()),
     // Transaction(id: '2', title: 'Item2', amount: 19.99, date: DateTime.now()),
   ];
+
+  List<Transaction> get _recentTransactions {
+    return _userTransactions.where((tx) {
+      return tx.date.isAfter(
+        DateTime.now().subtract(
+          Duration(days: 7),
+        ),
+      );
+    }).toList();
+  }
 
   void _addNewTransaction(String addTitle, double addAmount) {
     final newTx = Transaction(
@@ -96,14 +107,7 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Container(
-              width: double.infinity,
-              child: Card(
-                color: Colors.blue,
-                child: Text('Chart'),
-                elevation: 5,
-              ),
-            ),
+            Chart(_recentTransactions),
             TransactionList(_userTransactions),
           ],
         ),
