@@ -30,6 +30,11 @@ class MyApp extends StatelessWidget {
                 fontWeight: FontWeight.bold,
                 fontSize: 18,
               ),
+              labelLarge: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
             ),
         appBarTheme: AppBarTheme(
           titleTextStyle: TextStyle(
@@ -66,11 +71,11 @@ class _MyHomePageState extends State<MyHomePage> {
     }).toList();
   }
 
-  void _addNewTransaction(String addTitle, double addAmount) {
+  void _addNewTransaction(String addTitle, double addAmount, DateTime chosenDate) {
     final newTx = Transaction(
         title: addTitle,
         amount: addAmount,
-        date: DateTime.now(),
+        date: chosenDate,
         id: DateTime.now().toString());
 
     setState(() {
@@ -118,7 +123,7 @@ class _MyHomePageState extends State<MyHomePage> {
           Icons.add,
           color: Colors.white,
         ),
-        backgroundColor: Theme.of(context).colorScheme.secondary,
+        backgroundColor: Theme.of(context).colorScheme.primary,
         shape: RoundedRectangleBorder(
           // Example: Rounded edges
           borderRadius: BorderRadius.circular(40.0),
