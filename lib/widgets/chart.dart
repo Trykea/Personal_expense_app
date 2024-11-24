@@ -10,7 +10,8 @@ class Chart extends StatelessWidget {
   Chart(this.recentTransactions);
 
   List<Map<String, Object>> get groupedTransactionValues {
-    return List.generate(7, (index) {
+    // Generate the data for the past 7 days
+    List<Map<String, Object>> values = List.generate(7, (index) {
       final weekday = DateTime.now().subtract(
         Duration(days: index),
       );
@@ -24,11 +25,25 @@ class Chart extends StatelessWidget {
         }
       }
       return {
-        'day': DateFormat.E().format(weekday).substring(0, 1),
-        'amount': totalSum
+        'day': DateFormat.E().format(weekday).substring(0, 1), // Abbreviation for the day
+        'amount': totalSum,
+        'weekday': weekday.weekday, // Add the weekday number for sorting
       };
-    }).reversed.toList();
+    });
+
+    // Sort the list based on the 'weekday' property
+    values.sort((a, b) => (a['weekday'] as int).compareTo(b['weekday'] as int));
+
+    // Remove 'weekday' key from the final result if not needed
+    return values
+        .map((data) => {
+      'day': data['day'] as String,
+      'amount': data['amount'] as double,
+    })
+        .toList();
   }
+
+
 
   double get totalSpending {
     return groupedTransactionValues.fold(0.0, (sum, item) {
