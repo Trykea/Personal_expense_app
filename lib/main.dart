@@ -57,8 +57,8 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final List<Transaction> _userTransactions = [
-    // Transaction(id: '1', title: 'Item1', amount: 9.99, date: DateTime.now()),
-    // Transaction(id: '2', title: 'Item2', amount: 19.99, date: DateTime.now()),
+    Transaction(id: '1', title: 'Item1', amount: 9.99, date: DateTime.now()),
+    Transaction(id: '2', title: 'Item2', amount: 19.99, date: DateTime.now()),
   ];
 
   List<Transaction> get _recentTransactions {
@@ -71,7 +71,8 @@ class _MyHomePageState extends State<MyHomePage> {
     }).toList();
   }
 
-  void _addNewTransaction(String addTitle, double addAmount, DateTime chosenDate) {
+  void _addNewTransaction(
+      String addTitle, double addAmount, DateTime chosenDate) {
     final newTx = Transaction(
         title: addTitle,
         amount: addAmount,
@@ -82,12 +83,13 @@ class _MyHomePageState extends State<MyHomePage> {
       _userTransactions.add(newTx);
     });
   }
-  void _deleteTransaction(String id){
+
+  void _deleteTransaction(String id) {
     setState(() {
       _userTransactions.removeWhere((tx) => tx.id == id);
     });
-
   }
+
   void _openNewTransactionModal(BuildContext ctx) {
     showModalBottomSheet(
         context: ctx,
@@ -98,27 +100,32 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.primary,
-        title: Text(
-          'Personal Expenses',
-          style: TextStyle(color: Colors.white),
-        ),
-        actions: [
-          IconButton(
-            onPressed: () => _openNewTransactionModal(context),
-            icon: Icon(Icons.add),
-            color: Colors.white,
-          )
-        ],
+    final appBar = AppBar(
+      backgroundColor: Theme.of(context).colorScheme.primary,
+      title: Text(
+        'Personal Expenses',
+        style: TextStyle(color: Colors.white),
       ),
+      actions: [
+        IconButton(
+          onPressed: () => _openNewTransactionModal(context),
+          icon: Icon(Icons.add),
+          color: Colors.white,
+        )
+      ],
+    );
+    return Scaffold(
+      appBar: appBar,
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Chart(_recentTransactions),
-            TransactionList(_userTransactions, _deleteTransaction),
+            Container(
+              height: (MediaQuery.of(context).size.height - appBar.preferredSize.height - MediaQuery.of(context).padding.top) * 0.4,
+                child: Chart(_recentTransactions)),
+            Container(
+                height: (MediaQuery.of(context).size.height - appBar.preferredSize.height - MediaQuery.of(context).padding.top) * 0.6,
+                child: TransactionList(_userTransactions, _deleteTransaction)),
           ],
         ),
       ),
