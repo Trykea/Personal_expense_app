@@ -12,7 +12,7 @@ class TransactionList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 400,
+      height: 620,
       child: transactions.isEmpty
           ? Column(
               children: [
@@ -52,7 +52,7 @@ class TransactionList extends StatelessWidget {
                     subtitle: Text(
                       DateFormat.yMMMd().format(transactions[index].date)
                     ),
-                    trailing: IconButton(onPressed:() => deleteTx(transactions[index].id), icon:Icon(Icons.delete, color: Theme.of(context).colorScheme.error,)),
+                    trailing: IconButton(onPressed:() => deleteTx(transactions[index].id), icon:Icon(Icons.delete, color: Theme.of(context).colorScheme.secondary,)),
                   ),
                 );
               },

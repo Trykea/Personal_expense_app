@@ -19,9 +19,9 @@ class MyApp extends StatelessWidget {
       // ),
       theme: ThemeData(
         colorScheme: ColorScheme.fromSwatch(
-          primarySwatch: Colors.red,
+          primarySwatch: Colors.blue,
         ).copyWith(
-          secondary: Colors.blue, // Replacement for accentColor
+          secondary: Colors.red, // Replacement for accentColor
         ),
         fontFamily: 'QuickSand',
         textTheme: ThemeData.light().textTheme.copyWith(
