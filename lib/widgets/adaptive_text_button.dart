@@ -4,7 +4,7 @@ import 'dart:io';
 
 class AdaptiveTextButton extends StatelessWidget {
   final String text;
-  final Function handler;
+  final VoidCallback handler;
 
   AdaptiveTextButton(this.text,this.handler)
   @override
